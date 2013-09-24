@@ -162,7 +162,9 @@ void get_Thngs()
 		.wait();
 }
 
-pplx::task<void> create_Thng()
+// Taken from http://www.codeproject.com/Articles/603810/Using-Casablanca-to-consume-a-REST-API
+
+pplx::task<wstring> create_Thng()
 {
 	return pplx::create_task([]
 	{
@@ -183,20 +185,18 @@ pplx::task<void> create_Thng()
 
 		// return an empty JSON value
 		return pplx::task<json::value>(json::value());
-		//return pplx::create_task<json::value>(json::value());
+		
 				
 	})		
 	.then([](json::value jsonValue)
 	{
-		if(jsonValue.is_null())
-			return;
-		
+				
 		const json::value &thng = jsonValue;
 		auto id = thng[L"id"].to_string();
 
 		std::wcout << L"Thng Id: " << id;
 
-		return;
+		return id;
 	});
 }
 
